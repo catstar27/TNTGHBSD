@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://ketmsj5cacn1"]
+
+[ext_resource type="Script" path="res://mob.gd" id="1_4rau0"]
+[ext_resource type="Texture2D" uid="uid://mxlniafunlfn" path="res://art/space_debris_asteroid.png" id="2_ur51r"]
+[ext_resource type="Texture2D" uid="uid://3f5j3mrrupik" path="res://art/space_debris_scrapmetal.png" id="3_labt8"]
+[ext_resource type="Texture2D" uid="uid://ciewgpblclgs7" path="res://art/space_debris_tornmetal.png" id="4_xeaqc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_00ypb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ur51r")
+}],
+"loop": true,
+"name": &"rock",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_labt8")
+}],
+"loop": true,
+"name": &"scrap_metal",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_xeaqc")
+}],
+"loop": true,
+"name": &"torn_metal",
+"speed": 3.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k0to7"]
+radius = 28.0713
+
+[node name="Mob" type="RigidBody2D" groups=["enemy"]]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_4rau0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["enemy"]]
+scale = Vector2(1.75, 1.75)
+sprite_frames = SubResource("SpriteFrames_00ypb")
+animation = &"scrap_metal"
+frame_progress = 0.548615
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
+shape = SubResource("CircleShape2D_k0to7")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." groups=["enemy"]]
+position = Vector2(-0.250003, 1.90735e-06)
+scale = Vector2(4.025, 5.7)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

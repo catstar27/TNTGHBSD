@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bjxlca4meyikq"
+path="res://.godot/imported/Game Over Dodge the Creeps.wav-4e3139c350d03f77c58e812d4459bfbb.sample"
+
+[deps]
+
+source_file="res://art/Game Over Dodge the Creeps.wav"
+dest_files=["res://.godot/imported/Game Over Dodge the Creeps.wav-4e3139c350d03f77c58e812d4459bfbb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

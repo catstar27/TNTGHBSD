@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b1tq6f0alu7vw"
+path="res://.godot/imported/Itty Bitty Ditty.ogg-b71dfb7fb696e5c2067518ea4cca440e.oggvorbisstr"
+
+[deps]
+
+source_file="res://art/Itty Bitty Ditty.ogg"
+dest_files=["res://.godot/imported/Itty Bitty Ditty.ogg-b71dfb7fb696e5c2067518ea4cca440e.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

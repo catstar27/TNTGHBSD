@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://bj7afs2y8yabh"]
+
+[ext_resource type="PackedScene" uid="uid://gxphaih65dxq" path="res://player.tscn" id="1_24afl"]
+[ext_resource type="Script" path="res://main.gd" id="1_jd4fh"]
+[ext_resource type="PackedScene" uid="uid://ketmsj5cacn1" path="res://mob.tscn" id="2_rwjrm"]
+[ext_resource type="PackedScene" uid="uid://dtycy5rbbvmsy" path="res://hud.tscn" id="4_0dsmb"]
+[ext_resource type="PackedScene" uid="uid://c1qpltqv5fe0y" path="res://background.tscn" id="5_7tovq"]
+[ext_resource type="AudioStream" uid="uid://b1tq6f0alu7vw" path="res://art/Itty Bitty Ditty.ogg" id="6_gh5m2"]
+
+[sub_resource type="Curve2D" id="Curve2D_wdbns"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 480, 0, 0, 0, 0, 0, 480, 720, 0, 0, 0, 0, 0, 720, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Main" type="Node"]
+script = ExtResource("1_jd4fh")
+mob_scene = ExtResource("2_rwjrm")
+
+[node name="Player" parent="." instance=ExtResource("1_24afl")]
+z_index = 1
+z_as_relative = false
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(240, 450)
+
+[node name="MobPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_wdbns")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+
+[node name="HUD" parent="." instance=ExtResource("4_0dsmb")]
+
+[node name="Background" parent="." instance=ExtResource("5_7tovq")]
+layer = -5
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_gh5m2")
+
+[node name="FuelTimer" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="fuel_amount" from="Player" to="HUD" method="_on_player_fuel_amount"]
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="timeout" from="FuelTimer" to="." method="_on_fuel_timer_timeout"]

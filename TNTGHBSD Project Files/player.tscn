@@ -1,0 +1,98 @@
+[gd_scene load_steps=9 format=3 uid="uid://gxphaih65dxq"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_5ahim"]
+[ext_resource type="Texture2D" uid="uid://tq4d337hoyje" path="res://art/spaceship.png" id="2_1vfwi"]
+[ext_resource type="Texture2D" uid="uid://bmt4phwfsu2i5" path="res://art/spaceship_moving.png" id="2_rwxoi"]
+[ext_resource type="Texture2D" uid="uid://cwyl8hf3fvr4n" path="res://art/explosion.png" id="4_tnym1"]
+[ext_resource type="AudioStream" uid="uid://bjxlca4meyikq" path="res://art/Game Over Dodge the Creeps.wav" id="5_d5m3m"]
+
+[sub_resource type="Animation" id="Animation_edaff"]
+resource_name = "explode"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.1, 0.1), Vector2(1.5, 1.5)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"death"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_6mxix"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.1, 0.1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_shff3"]
+_data = {
+"RESET": SubResource("Animation_6mxix"),
+"explode": SubResource("Animation_edaff")
+}
+
+[node name="Player" type="Area2D" groups=["player"]]
+visible = false
+position = Vector2(235, 348)
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_5ahim")
+metadata/_edit_group_ = true
+
+[node name="StillSprite" type="Sprite2D" parent="." groups=["player"]]
+texture_filter = 1
+scale = Vector2(0.66, 0.66)
+texture = ExtResource("2_1vfwi")
+
+[node name="MovingSprite" type="Sprite2D" parent="." groups=["player"]]
+visible = false
+texture_filter = 1
+scale = Vector2(0.66, 0.66)
+texture = ExtResource("2_rwxoi")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." groups=["player"]]
+scale = Vector2(0.33, 0.33)
+polygon = PackedVector2Array(0, -32, -24, 11, 0, 26, 24, 11)
+
+[node name="FuelUseTimer" type="Timer" parent="."]
+
+[node name="Explosion" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_tnym1")
+
+[node name="ExplosionAnimation" type="AnimationPlayer" parent="Explosion"]
+libraries = {
+"": SubResource("AnimationLibrary_shff3")
+}
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_d5m3m")
+volume_db = 1.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="FuelUseTimer" to="." method="fuel_use"]

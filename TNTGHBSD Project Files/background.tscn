@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1qpltqv5fe0y"]
+
+[ext_resource type="Shader" path="res://background.gdshader" id="1_qgmym"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6h2ct"]
+shader = ExtResource("1_qgmym")
+
+[node name="Background" type="CanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_6h2ct")
+offset_right = 480.0
+offset_bottom = 720.0
+color = Color(1, 1, 1, 0)
